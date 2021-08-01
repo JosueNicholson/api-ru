@@ -72,9 +72,13 @@ public class RefeicaoController {
 		} catch (CustomException e) {
 			return ResponseEntity.status(e.getHttpStatus()).body(e.getMessage());
 		}
+
 		Refeicao atual = hoje.isAlmocoTime() ? hoje.getAlmoco() : hoje.getJanta();
-		if(refeicao.getComentario() != null)
-			comentarioService.save(new Comentario(refeicao.getComentario()));
+		if(refeicao.getComentario() != null) {
+			Comentario comentario = new Comentario(refeicao.getComentario());
+			comentario.setRefeicao(atual);
+			comentarioService.save(comentario);
+		}
 		atual.atualizarRefeicao(refeicao);
 		return ResponseEntity.ok(service.save(atual));	
 	}
