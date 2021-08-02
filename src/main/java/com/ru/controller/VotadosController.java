@@ -1,7 +1,7 @@
 package com.ru.controller;
 
 import java.util.Calendar;
-
+import java.util.TimeZone;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -44,7 +44,7 @@ public class VotadosController {
 	public ResponseEntity<Object> podeVotar(@PathVariable String matricula) {
 		Object body = diaController.getUltimoDia().getBody();
 		Dia ultimoDia = body != null ? (Dia) body : null;
-		Calendar hoje = Calendar.getInstance();
+		Calendar hoje = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		if(ultimoDia == null || hoje.get(Calendar.DAY_OF_MONTH) != ultimoDia.getDia()) {
 			Dia novoDia = new Dia(hoje.get(Calendar.DAY_OF_MONTH), hoje.get(Calendar.MONTH)+1, hoje.get(Calendar.YEAR));
 			if(!novoDia.isAlmocoTime() && !novoDia.isJantaTime()) {

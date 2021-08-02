@@ -1,6 +1,7 @@
 package com.ru.model;
 
 import java.util.Calendar;
+import java.util.TimeZone;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -88,12 +89,12 @@ public class Dia {
 	}
 	
 	public boolean isAlmocoTime() {
-		Calendar c = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		
-		Calendar inicioAlmoco = Calendar.getInstance();
+		Calendar inicioAlmoco = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		inicioAlmoco.set(ano, mes-1, dia, 02, 00);
 		
-		Calendar fimAlmoco = Calendar.getInstance();
+		Calendar fimAlmoco = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		fimAlmoco.set(ano, mes-1, dia, 11, 10);
 		
 		if(c.after(inicioAlmoco) && c.before(fimAlmoco))
@@ -103,11 +104,11 @@ public class Dia {
 	}
 	
 	public boolean isJantaTime() {
-		Calendar c = Calendar.getInstance();
-		Calendar inicioJanta = Calendar.getInstance();
+		Calendar c = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
+		Calendar inicioJanta = Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		inicioJanta.set(ano, mes-1, dia, 11, 15);
 		
-		Calendar fimJanta= Calendar.getInstance();
+		Calendar fimJanta= Calendar.getInstance(TimeZone.getTimeZone("GMT-03:00"));
 		fimJanta.set(ano, mes-1, dia, 23, 00);
 		
 		if(c.after(inicioJanta) && c.before(fimJanta))
