@@ -16,9 +16,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ru.dto.ComentarioDTO;
+import com.ru.dto.DiaDTO;
+import com.ru.dto.RefeicaoDTO;
+import com.ru.model.Comentario;
 import com.ru.model.Dia;
 import com.ru.model.Refeicao;
 import com.ru.service.ArduinoService;
+import com.ru.service.ComentarioService;
 import com.ru.service.DiaService;
 import com.ru.service.RefeicaoService;
 
@@ -35,15 +40,27 @@ public class DiaController {
 	@Autowired
 	private ArduinoService aservice;
 	
+	@Autowired
+	private ComentarioService cservice;
+	
 	@RequestMapping(value = "/getAll", method = RequestMethod.GET)
 	public ResponseEntity<Collection<Dia>> getAll(){
 		return ResponseEntity.ok(service.findAll());
 	}
 	
 	@GetMapping("/{ano}/{mes}/{dia}")
-	public ResponseEntity<Dia> getDia(@PathVariable int dia, @PathVariable int mes, @PathVariable int ano){
+	public ResponseEntity<DiaDTO> getDia(@PathVariable int dia, @PathVariable int mes, @PathVariable int ano){
 		Dia aux = service.findByDiaAndMesAndAno(dia, mes, ano);
-		return ResponseEntity.ok(aux);
+		DiaDTO response = new DiaDTO(aux);
+		RefeicaoDTO almoco = new RefeicaoDTO(aux.getAlmoco());
+		RefeicaoDTO janta = new RefeicaoDTO(aux.getJanta());
+		List<ComentarioDTO> comentariosAlmoco = cservice.findByRefeicao(aux.getAlmoco());
+		List<ComentarioDTO> comentariosJanta = cservice.findByRefeicao(aux.getJanta());
+		almoco.setComentarios(comentariosAlmoco);
+		janta.setComentarios(comentariosJanta);
+		response.setAlmoco(almoco);
+		response.setJanta(janta);
+		return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("")

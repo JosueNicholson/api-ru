@@ -47,7 +47,7 @@ public class VotadosService {
 				horarios.getFimAlmoco());
 		boolean jaVotouNaJanta = this.jaVotouNaRefeicao(votados.getHora(), horarios.getInicioJanta(),
 				horarios.getFimJanta());
-		if ((hoje.isAlmocoTime() && jaVotouNoAlmoco) || (hoje.isJantaTime() && jaVotouNaJanta))
+		if (jaVotouNoAlmoco || jaVotouNaJanta)
 			return true;
 		return false;
 	}

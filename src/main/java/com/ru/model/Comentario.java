@@ -17,6 +17,8 @@ public class Comentario {
 	@ManyToOne
 	Refeicao refeicao;
 	
+	public Comentario() {}
+	
 	public Comentario(String comentario) {
 		this.comentario = comentario;
 	}
